@@ -1,69 +1,88 @@
-import Image from "next/image";
+'use client'
+
+import dynamic from 'next/dynamic'
+import Link from 'next/link'
+import { useState } from 'react'
+import Filters, { type FilterState } from '@/components/Filters'
+import ReportForm from '@/components/ReportForm'
+import { CATEGORIES, STATUSES } from '@/lib/types'
+
+const Map = dynamic(() => import('@/components/Map'), { ssr: false })
+
+const ALL_FILTERS: FilterState = { categories: [...CATEGORIES], statuses: [...STATUSES] }
 
 export default function Home() {
+  const [filters, setFilters] = useState<FilterState>(ALL_FILTERS)
+  const [reporting, setReporting] = useState(false)
+  const [pin, setPin] = useState<{ lat: number; lng: number } | null>(null)
+  const [reloadToken, setReloadToken] = useState(0)
+
+  function handleStartReporting() {
+    setReporting(true)
+    setPin(null)
+    document.getElementById('map-section')?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+  function handleMapClick(lat: number, lng: number) {
+    if (reporting) setPin({ lat, lng })
+  }
+
+  function handleCancel() {
+    setReporting(false)
+    setPin(null)
+  }
+
+  function handleSubmitted() {
+    setReporting(false)
+    setPin(null)
+    setReloadToken((t) => t + 1)
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div className="flex flex-1 flex-col">
+      <header className="border-b border-gray-200 bg-white px-6 py-10 text-center">
+        <h1 className="text-3xl font-bold">CommunityFix</h1>
+        <p className="mx-auto mt-2 max-w-xl text-gray-600">
+          See a pothole, broken streetlight, illegal dump, or blocked drain? Drop a pin, add a
+          photo, and let your community — and local authorities — see it. No login required.
+        </p>
+        <button
+          onClick={handleStartReporting}
+          className="mt-4 rounded-lg bg-blue-600 px-5 py-2.5 font-medium text-white hover:bg-blue-700"
+        >
+          Report an Issue
+        </button>
+      </header>
+
+      <main id="map-section" className="mx-auto w-full max-w-5xl flex-1 space-y-4 px-4 py-6">
+        <Filters value={filters} onChange={setFilters} />
+
+        {reporting && (
+          <p className="rounded bg-blue-50 px-3 py-2 text-sm text-blue-800">
+            Click the map below to drop a pin at the issue location.
           </p>
+        )}
+
+        <div className="h-[500px] overflow-hidden rounded-lg border border-gray-200">
+          <Map
+            filters={filters}
+            onMapClick={handleMapClick}
+            pendingPin={pin}
+            reloadToken={reloadToken}
+          />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
+
+        {reporting && (
+          <ReportForm pin={pin} onCancel={handleCancel} onSubmitted={handleSubmitted} />
+        )}
       </main>
+
+      <footer className="border-t border-gray-200 px-6 py-4 text-center text-xs text-gray-500">
+        <p>Built by GeoTechieX</p>
+        <Link href="/admin/login" className="text-gray-400 underline hover:text-gray-600">
+          Admin
+        </Link>
+      </footer>
     </div>
-  );
+  )
 }
