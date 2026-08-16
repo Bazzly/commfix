@@ -1,16 +1,27 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "leaflet/dist/leaflet.css";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const display = localFont({
+  src: "./fonts/Manrope-Variable.woff2",
+  variable: "--font-display",
+  weight: "600 800",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const body = localFont({
+  src: "./fonts/Inter-Variable.woff2",
+  variable: "--font-body",
+  weight: "400 600",
+  display: "swap",
+});
+
+const dataMono = localFont({
+  src: "./fonts/JetBrainsMono-Variable.woff2",
+  variable: "--font-data",
+  weight: "400 500",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -22,9 +33,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${display.variable} ${body.variable} ${dataMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col bg-paper text-ink">{children}</body>
     </html>
   );
 }

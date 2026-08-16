@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from 'react'
 import { insertReport, uploadPhoto } from '@/lib/reports'
 import { CATEGORIES, CATEGORY_LABELS, type Category } from '@/lib/types'
+import Button from './ui/Button'
 
 const MAX_PHOTO_BYTES = 5 * 1024 * 1024 // 5MB
 
@@ -11,6 +12,9 @@ interface ReportFormProps {
   onCancel: () => void
   onSubmitted: () => void
 }
+
+const inputClasses =
+  'mt-1 w-full rounded-lg border border-ink/15 bg-paper px-2.5 py-1.5 text-sm text-ink outline-none focus:border-amber'
 
 export default function ReportForm({ pin, onCancel, onSubmitted }: ReportFormProps) {
   const [category, setCategory] = useState<Category | ''>('')
@@ -77,42 +81,38 @@ export default function ReportForm({ pin, onCancel, onSubmitted }: ReportFormPro
 
   if (success) {
     return (
-      <div className="space-y-3 rounded-lg border border-green-200 bg-green-50 p-4">
-        <p className="text-sm font-medium text-green-800">
+      <div className="space-y-3 rounded-card bg-moss/10 p-4">
+        <p className="text-sm font-medium text-moss">
           Thanks! Your report has been submitted and is now visible on the map.
         </p>
-        <button
+        <Button
+          variant="primary"
           onClick={() => {
             setSuccess(false)
             onCancel()
           }}
-          className="rounded bg-green-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-green-700"
         >
           Done
-        </button>
+        </Button>
       </div>
     )
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-3 rounded-lg border border-gray-200 p-4">
-      <p className="text-sm text-gray-600">
-        {pin ? (
-          <>
-            Pin set at {pin.lat.toFixed(5)}, {pin.lng.toFixed(5)}
-          </>
-        ) : (
-          'Click anywhere on the map to drop a pin at the issue location.'
-        )}
-      </p>
+    <form onSubmit={handleSubmit} className="space-y-3">
+      {pin && (
+        <p className="font-mono text-xs text-ink/50">
+          Pin set at {pin.lat.toFixed(5)}, {pin.lng.toFixed(5)}
+        </p>
+      )}
 
       <div>
-        <label className="block text-sm font-medium">Category *</label>
+        <label className="block text-sm font-medium text-ink">Category *</label>
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value as Category)}
           required
-          className="mt-1 w-full rounded border border-gray-300 px-2 py-1.5 text-sm"
+          className={inputClasses}
         >
           <option value="">Select a category…</option>
           {CATEGORIES.map((c) => (
@@ -124,54 +124,46 @@ export default function ReportForm({ pin, onCancel, onSubmitted }: ReportFormPro
       </div>
 
       <div>
-        <label className="block text-sm font-medium">Description</label>
+        <label className="block text-sm font-medium text-ink">Description</label>
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           rows={3}
-          className="mt-1 w-full rounded border border-gray-300 px-2 py-1.5 text-sm"
+          className={inputClasses}
           placeholder="What's the issue? Where exactly?"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium">Photo (optional, max 5MB)</label>
+        <label className="block text-sm font-medium text-ink">Photo (optional, max 5MB)</label>
         <input
           type="file"
           accept="image/*"
           onChange={handlePhotoChange}
-          className="mt-1 w-full text-sm"
+          className="mt-1 w-full text-sm text-ink"
         />
       </div>
 
       <div>
-        <label className="block text-sm font-medium">Contact (optional)</label>
+        <label className="block text-sm font-medium text-ink">Contact (optional)</label>
         <input
           type="text"
           value={contact}
           onChange={(e) => setContact(e.target.value)}
-          className="mt-1 w-full rounded border border-gray-300 px-2 py-1.5 text-sm"
+          className={inputClasses}
           placeholder="Phone or email, if you'd like updates"
         />
       </div>
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm text-rust">{error}</p>}
 
       <div className="flex gap-2">
-        <button
-          type="submit"
-          disabled={submitting || !pin}
-          className="rounded bg-blue-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
-        >
+        <Button type="submit" variant="primary" disabled={submitting || !pin}>
           {submitting ? 'Submitting…' : 'Submit report'}
-        </button>
-        <button
-          type="button"
-          onClick={onCancel}
-          className="rounded border border-gray-300 px-3 py-1.5 text-sm font-medium hover:bg-gray-50"
-        >
+        </Button>
+        <Button type="button" variant="secondary" onClick={onCancel}>
           Cancel
-        </button>
+        </Button>
       </div>
     </form>
   )

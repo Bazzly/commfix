@@ -6,6 +6,9 @@ import type { User } from '@supabase/supabase-js'
 import { supabase } from '@/lib/supabase'
 import { fetchReports, updateReportStatus } from '@/lib/reports'
 import { CATEGORY_LABELS, STATUSES, STATUS_LABELS, type Report, type Status } from '@/lib/types'
+import Button from '@/components/ui/Button'
+import StatusPill from '@/components/ui/StatusPill'
+import { relativeTime } from '@/lib/motion'
 
 type SortKey = 'created_at' | 'status'
 
@@ -80,59 +83,61 @@ export default function AdminPage() {
   }
 
   if (checkingAuth) {
-    return <p className="p-6 text-sm text-gray-500">Checking authentication…</p>
+    return <p className="p-6 font-mono text-sm text-ink/50">Checking authentication…</p>
   }
 
   return (
     <div className="mx-auto w-full max-w-4xl flex-1 space-y-4 px-4 py-8">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold">Admin — Reports</h1>
-        <button
-          onClick={handleLogout}
-          className="rounded border border-gray-300 px-3 py-1.5 text-sm hover:bg-gray-50"
-        >
+        <h1 className="font-display text-xl font-bold text-ink">Admin — Reports</h1>
+        <Button variant="secondary" onClick={handleLogout}>
           Log out
-        </button>
+        </Button>
       </div>
 
       {loading ? (
-        <p className="text-sm text-gray-500">Loading…</p>
+        <p className="font-mono text-sm text-ink/50">Loading…</p>
       ) : (
-        <div className="overflow-x-auto rounded-lg border border-gray-200">
+        <div className="overflow-x-auto rounded-card bg-ink/3">
           <table className="w-full text-left text-sm">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-3 py-2">Category</th>
-                <th className="px-3 py-2">Description</th>
-                <th className="cursor-pointer px-3 py-2" onClick={() => toggleSort('created_at')}>
+            <thead>
+              <tr className="font-display text-xs font-bold uppercase tracking-wide text-ink/50">
+                <th className="px-3 py-3">Category</th>
+                <th className="px-3 py-3">Description</th>
+                <th className="cursor-pointer px-3 py-3" onClick={() => toggleSort('created_at')}>
                   Date {sortKey === 'created_at' && (sortDir === 'asc' ? '↑' : '↓')}
                 </th>
-                <th className="cursor-pointer px-3 py-2" onClick={() => toggleSort('status')}>
+                <th className="cursor-pointer px-3 py-3" onClick={() => toggleSort('status')}>
                   Status {sortKey === 'status' && (sortDir === 'asc' ? '↑' : '↓')}
                 </th>
-                <th className="px-3 py-2">Upvotes</th>
+                <th className="px-3 py-3">Upvotes</th>
               </tr>
             </thead>
             <tbody>
               {sortedReports.map((r) => (
-                <tr key={r.id} className="border-t border-gray-100">
-                  <td className="px-3 py-2">{CATEGORY_LABELS[r.category]}</td>
-                  <td className="max-w-xs truncate px-3 py-2">{r.description}</td>
-                  <td className="px-3 py-2">{new Date(r.created_at).toLocaleDateString()}</td>
-                  <td className="px-3 py-2">
-                    <select
-                      value={r.status}
-                      onChange={(e) => handleStatusChange(r.id, e.target.value as Status)}
-                      className="rounded border border-gray-300 px-1.5 py-1 text-xs"
-                    >
-                      {STATUSES.map((s) => (
-                        <option key={s} value={s}>
-                          {STATUS_LABELS[s]}
-                        </option>
-                      ))}
-                    </select>
+                <tr key={r.id} className="border-t border-ink/10">
+                  <td className="px-3 py-2 text-ink">{CATEGORY_LABELS[r.category]}</td>
+                  <td className="max-w-xs truncate px-3 py-2 text-ink/70">{r.description}</td>
+                  <td className="px-3 py-2 font-mono text-xs text-ink/60">
+                    {relativeTime(r.created_at)}
                   </td>
-                  <td className="px-3 py-2">{r.upvotes}</td>
+                  <td className="px-3 py-2">
+                    <div className="flex items-center gap-2">
+                      <StatusPill status={r.status} />
+                      <select
+                        value={r.status}
+                        onChange={(e) => handleStatusChange(r.id, e.target.value as Status)}
+                        className="rounded-full border border-ink/15 bg-paper px-1.5 py-0.5 text-xs text-ink"
+                      >
+                        {STATUSES.map((s) => (
+                          <option key={s} value={s}>
+                            {STATUS_LABELS[s]}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </td>
+                  <td className="px-3 py-2 text-ink">{r.upvotes}</td>
                 </tr>
               ))}
             </tbody>

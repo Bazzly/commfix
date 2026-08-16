@@ -2,16 +2,10 @@
 
 import { useEffect, useMemo, useState, useCallback } from 'react'
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet'
-import Link from 'next/link'
 import { fetchReports, upvoteReport } from '@/lib/reports'
-import {
-  CATEGORY_LABELS,
-  STATUS_LABELS,
-  type Category,
-  type Report,
-  type Status,
-} from '@/lib/types'
+import { type Category, type Report, type Status } from '@/lib/types'
 import { categoryStatusIcon, pendingPinIcon } from './markerIcon'
+import ReportCard from './ReportCard'
 
 export const DEFAULT_CENTER: [number, number] = [7.1475, 3.3619] // Abeokuta
 
@@ -92,40 +86,10 @@ export default function Map({
           <Marker
             key={report.id}
             position={[report.location.lat, report.location.lng]}
-            icon={categoryStatusIcon(report.category, report.status)}
+            icon={categoryStatusIcon(report)}
           >
             <Popup>
-              <div className="w-48 space-y-1">
-                {report.photo_url && (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={report.photo_url}
-                    alt={CATEGORY_LABELS[report.category]}
-                    className="mb-1 h-24 w-full rounded object-cover"
-                  />
-                )}
-                <p className="text-sm font-semibold">{CATEGORY_LABELS[report.category]}</p>
-                {report.description && (
-                  <p className="text-xs text-gray-600">{report.description}</p>
-                )}
-                <p className="text-xs">
-                  Status: <span className="font-medium">{STATUS_LABELS[report.status]}</span>
-                </p>
-                <p className="text-[11px] text-gray-400">
-                  Reported {new Date(report.created_at).toLocaleDateString()}
-                </p>
-                <div className="flex items-center justify-between pt-1">
-                  <button
-                    onClick={() => handleUpvote(report.id)}
-                    className="rounded bg-gray-100 px-2 py-1 text-xs font-medium hover:bg-gray-200"
-                  >
-                    👍 {report.upvotes} confirmed
-                  </button>
-                  <Link href={`/report/${report.id}`} className="text-xs text-blue-600 underline">
-                    Share
-                  </Link>
-                </div>
-              </div>
+              <ReportCard report={report} onUpvote={handleUpvote} />
             </Popup>
           </Marker>
         ))}
@@ -136,7 +100,7 @@ export default function Map({
       </MapContainer>
 
       {loading && (
-        <div className="pointer-events-none absolute left-2 top-2 z-[1000] rounded bg-white/90 px-2 py-1 text-xs shadow">
+        <div className="pointer-events-none absolute left-2 top-2 z-[1000] rounded-full bg-paper/90 px-3 py-1 font-mono text-xs text-ink shadow-(--shadow-soft)">
           Loading reports…
         </div>
       )}

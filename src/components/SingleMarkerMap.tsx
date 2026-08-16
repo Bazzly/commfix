@@ -16,10 +16,7 @@ export default function SingleMarkerMap({ report }: { report: Report }) {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Marker
-        position={[report.location.lat, report.location.lng]}
-        icon={categoryStatusIcon(report.category, report.status)}
-      >
+      <Marker position={[report.location.lat, report.location.lng]} icon={categoryStatusIcon(report)}>
         <Popup>{CATEGORY_LABELS[report.category]}</Popup>
       </Marker>
     </MapContainer>

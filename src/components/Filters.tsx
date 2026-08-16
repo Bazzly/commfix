@@ -35,16 +35,19 @@ export default function Filters({ value, onChange }: FiltersProps) {
   }
 
   return (
-    <div className="flex flex-wrap gap-4 rounded-lg border border-gray-200 p-3 text-sm">
+    <div className="flex flex-col gap-4 p-4 text-sm">
       <div>
-        <p className="mb-1 font-medium">Category</p>
-        <div className="flex flex-wrap gap-2">
+        <p className="mb-2 font-display text-xs font-bold uppercase tracking-wide text-ink/50">
+          Category
+        </p>
+        <div className="flex flex-wrap gap-x-3 gap-y-1.5">
           {CATEGORIES.map((c) => (
-            <label key={c} className="flex items-center gap-1">
+            <label key={c} className="flex items-center gap-1.5 text-ink">
               <input
                 type="checkbox"
                 checked={value.categories.includes(c)}
                 onChange={() => toggleCategory(c)}
+                className="accent-amber"
               />
               {CATEGORY_LABELS[c]}
             </label>
@@ -53,14 +56,17 @@ export default function Filters({ value, onChange }: FiltersProps) {
       </div>
 
       <div>
-        <p className="mb-1 font-medium">Status</p>
-        <div className="flex flex-wrap gap-2">
+        <p className="mb-2 font-display text-xs font-bold uppercase tracking-wide text-ink/50">
+          Status
+        </p>
+        <div className="flex flex-wrap gap-x-3 gap-y-1.5">
           {STATUSES.map((s) => (
-            <label key={s} className="flex items-center gap-1">
+            <label key={s} className="flex items-center gap-1.5 text-ink">
               <input
                 type="checkbox"
                 checked={value.statuses.includes(s)}
                 onChange={() => toggleStatus(s)}
+                className="accent-amber"
               />
               {STATUS_LABELS[s]}
             </label>

@@ -23,11 +23,11 @@ export const CATEGORY_LABELS: Record<Category, string> = {
 }
 
 export const CATEGORY_COLORS: Record<Category, string> = {
-  pothole: '#ef4444',
-  streetlight: '#eab308',
-  waste: '#16a34a',
-  drainage: '#3b82f6',
-  other: '#6b7280',
+  pothole: '#c1543c', // rust
+  streetlight: '#f2a93b', // amber
+  waste: '#8a6d3b', // moss-adjacent brown
+  drainage: '#7a94a0', // slate
+  other: '#8c8478', // warm neutral
 }
 
 export const STATUS_LABELS: Record<Status, string> = {

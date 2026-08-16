@@ -3,6 +3,11 @@
 import { useState, type FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
+import Button from '@/components/ui/Button'
+import Logo from '@/components/ui/Logo'
+
+const inputClasses =
+  'mt-1 w-full rounded-lg border border-ink/15 bg-paper px-2.5 py-1.5 text-sm text-ink outline-none focus:border-amber'
 
 export default function AdminLoginPage() {
   const router = useRouter()
@@ -28,36 +33,35 @@ export default function AdminLoginPage() {
 
   return (
     <div className="mx-auto flex w-full max-w-sm flex-1 flex-col justify-center px-4 py-8">
-      <h1 className="mb-4 text-xl font-bold">Admin Login</h1>
+      <div className="mb-6 flex justify-center">
+        <Logo />
+      </div>
+      <h1 className="mb-4 text-center font-display text-xl font-bold text-ink">Admin Login</h1>
       <form onSubmit={handleSubmit} className="space-y-3">
         <div>
-          <label className="block text-sm font-medium">Email</label>
+          <label className="block text-sm font-medium text-ink">Email</label>
           <input
             type="email"
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 w-full rounded border border-gray-300 px-2 py-1.5 text-sm"
+            className={inputClasses}
           />
         </div>
         <div>
-          <label className="block text-sm font-medium">Password</label>
+          <label className="block text-sm font-medium text-ink">Password</label>
           <input
             type="password"
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="mt-1 w-full rounded border border-gray-300 px-2 py-1.5 text-sm"
+            className={inputClasses}
           />
         </div>
-        {error && <p className="text-sm text-red-600">{error}</p>}
-        <button
-          type="submit"
-          disabled={submitting}
-          className="w-full rounded bg-blue-600 px-3 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
-        >
+        {error && <p className="text-sm text-rust">{error}</p>}
+        <Button type="submit" variant="primary" disabled={submitting} className="w-full">
           {submitting ? 'Signing in…' : 'Sign in'}
-        </button>
+        </Button>
       </form>
     </div>
   )
