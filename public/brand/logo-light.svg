@@ -1,0 +1,32 @@
+<svg viewBox="0 0 640 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .wordmark { font-family: 'Manrope', 'Poppins', 'Segoe UI', sans-serif; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="640" height="200" fill="#F7F5F0"/>
+
+  <!-- Pin -->
+  <g>
+    <path d="M100 30
+             C 65 30, 38 57, 38 92
+             C 38 140, 100 178, 100 178
+             C 100 178, 162 140, 162 92
+             C 162 57, 135 30, 100 30
+             Z"
+          fill="#173A40"/>
+    <circle cx="100" cy="92" r="20" fill="#F2A93B"/>
+  </g>
+
+  <!-- Ripples (signature Ripple Reveal element) -->
+  <g fill="none" stroke="#7A94A0" stroke-width="4">
+    <circle cx="100" cy="182" r="10" opacity="0.85"/>
+    <circle cx="100" cy="182" r="20" opacity="0.5"/>
+    <circle cx="100" cy="182" r="30" opacity="0.25"/>
+  </g>
+
+  <!-- Wordmark -->
+  <text x="205" y="105" class="wordmark" font-size="56" font-weight="500" fill="#173A40">Community</text>
+  <text x="205" y="150" class="wordmark" font-size="56" font-weight="700" fill="#F2A93B">Fix</text>
+</svg>

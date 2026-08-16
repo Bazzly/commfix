@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+CommunityFix-BUILD-README.md
+CommunityFix-UIUX-Design-README.md

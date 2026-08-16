@@ -50,6 +50,38 @@ export function categoryStatusIcon(report: MarkerReport): L.DivIcon {
   })
 }
 
+export function locateIcon(): L.DivIcon {
+  const svg = `
+    <svg width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg" style="overflow: visible">
+      <circle class="communityfix-pulse-locate" cx="13" cy="13" r="10" fill="none" stroke="var(--color-slate)" stroke-width="2" />
+      <circle cx="13" cy="13" r="6.5" fill="var(--color-slate)" stroke="var(--color-paper)" stroke-width="2.5" />
+    </svg>
+  `.trim()
+
+  return L.divIcon({
+    html: svg,
+    className: 'communityfix-marker',
+    iconSize: [26, 26],
+    iconAnchor: [13, 13],
+    popupAnchor: [0, -13],
+  })
+}
+
+export function measurePointIcon(): L.DivIcon {
+  const svg = `
+    <svg width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="6" cy="6" r="5" fill="var(--color-ink)" stroke="var(--color-paper)" stroke-width="2" />
+    </svg>
+  `.trim()
+
+  return L.divIcon({
+    html: svg,
+    className: 'communityfix-marker',
+    iconSize: [12, 12],
+    iconAnchor: [6, 6],
+  })
+}
+
 export function pendingPinIcon(): L.DivIcon {
   const svg = `
     <svg width="30" height="42" viewBox="0 0 30 42" xmlns="http://www.w3.org/2000/svg">

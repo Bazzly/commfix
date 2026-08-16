@@ -1,14 +1,22 @@
 export default function Logo({ withWordmark = true }: { withWordmark?: boolean }) {
   return (
     <span className="inline-flex items-center gap-2">
-      <svg width="30" height="30" viewBox="0 0 40 40" aria-hidden="true">
-        <circle cx="20" cy="24" r="15" fill="none" stroke="var(--color-amber)" strokeWidth="1.5" opacity="0.35" />
-        <circle cx="20" cy="24" r="10" fill="none" stroke="var(--color-amber)" strokeWidth="1.5" opacity="0.55" />
+      <svg width="34" height="34" viewBox="0 0 240 240" aria-hidden="true">
         <path
-          d="M20 6c-5.5 0-10 4.4-10 9.8 0 7.4 10 16.2 10 16.2s10-8.8 10-16.2C30 10.4 25.5 6 20 6z"
+          d="M120 40
+             C 90 40, 65 65, 65 100
+             C 65 148, 120 190, 120 190
+             C 120 190, 175 148, 175 100
+             C 175 65, 150 40, 120 40
+             Z"
           fill="var(--color-ink)"
         />
-        <circle cx="20" cy="15.5" r="3.6" fill="var(--color-paper)" />
+        <circle cx="120" cy="100" r="22" fill="var(--color-amber)" />
+        <g fill="none" stroke="var(--color-slate)" strokeWidth="5">
+          <circle cx="120" cy="196" r="11" opacity="0.85" />
+          <circle cx="120" cy="196" r="22" opacity="0.5" />
+          <circle cx="120" cy="196" r="33" opacity="0.25" />
+        </g>
       </svg>
       {withWordmark && (
         <span className="font-display text-lg font-bold tracking-tight text-ink">

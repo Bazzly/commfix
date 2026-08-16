@@ -66,7 +66,8 @@ body {
 }
 
 .communityfix-pulse-urgent,
-.communityfix-pulse-popular {
+.communityfix-pulse-popular,
+.communityfix-pulse-locate {
   transform-origin: center;
   transform-box: fill-box;
   animation: communityfix-pulse 2.4s var(--ease-out-expo) infinite;
@@ -76,9 +77,14 @@ body {
   animation-duration: 3.2s;
 }
 
+.communityfix-pulse-locate {
+  animation-duration: 1.8s;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .communityfix-pulse-urgent,
-  .communityfix-pulse-popular {
+  .communityfix-pulse-popular,
+  .communityfix-pulse-locate {
     animation: none;
     opacity: 0.3;
   }
