@@ -36,5 +36,11 @@ export const STATUS_LABELS: Record<Status, string> = {
   resolved: 'Resolved',
 }
 
+export const STATUS_COLORS: Record<Status, string> = {
+  reported: '#f2a93b', // amber
+  in_progress: '#7a94a0', // slate
+  resolved: '#4c7a5b', // moss
+}
+
 export const CATEGORIES: Category[] = ['pothole', 'streetlight', 'waste', 'drainage', 'other']
 export const STATUSES: Status[] = ['reported', 'in_progress', 'resolved']
