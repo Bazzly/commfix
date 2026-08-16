@@ -40,5 +40,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Ignore generated documentation files
 CommunityFix-BUILD-README.md
 CommunityFix-UIUX-Design-README.md
