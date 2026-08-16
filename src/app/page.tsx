@@ -33,8 +33,8 @@ export default function Home() {
   }
 
   function handleSubmitted() {
-    setReporting(false)
-    setPin(null)
+    // Keep the form mounted so its "Thanks!" confirmation is visible;
+    // the confirmation screen's Done button calls onCancel to exit reporting mode.
     setReloadToken((t) => t + 1)
   }
 
@@ -57,7 +57,7 @@ export default function Home() {
       <main id="map-section" className="mx-auto w-full max-w-5xl flex-1 space-y-4 px-4 py-6">
         <Filters value={filters} onChange={setFilters} />
 
-        {reporting && (
+        {reporting && !pin && (
           <p className="rounded bg-blue-50 px-3 py-2 text-sm text-blue-800">
             Click the map below to drop a pin at the issue location.
           </p>
