@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s -o /tmp/report-page.html -w \"HTTP: %{http_code}\\\\n\" https://commfix.vercel.app/report/c9d7b2ea-f025-4663-b620-5b3d1e8a99fa)",
+      "Bash(curl -sI https://commfix.vercel.app/report/c9d7b2ea-f025-4663-b620-5b3d1e8a99fa)"
+    ]
+  }
+}
